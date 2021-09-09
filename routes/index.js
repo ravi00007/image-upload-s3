@@ -1,43 +1,29 @@
 const express = require('express');
-const busboy = new Busboy({ headers: req.headers });
+const Busboy = require('busboy');
+const { uploadToS3 } = require('../amazon/fileUploadToS3')
 const router = express.Router();
 
-
+const BUCKET_NAME = '';
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
 
-  res.send('hey!')
+  res.send('hey there!')
 });
-app.post('/api/upload', function (req, res, next) {
-  // This grabs the additional parameters so in this case passing in
-  // "element1" with a value.
-  const element1 = req.body.element1;
 
-  
+router.post('/api/upload', function (req, res, next) {
+  const busboy = new Busboy({ headers: req.headers });
 
-  // The file upload has completed
-  busboy.on('finish', function() {
-    console.log('Upload finished');
-    
-    // Your files are stored in req.files. In this case,
-    // you only have one and it's req.files.element2:
-    // This returns:
-    // {
-    //    element2: {
-    //      data: ...contents of the file...,
-    //      name: 'Example.jpg',
-    //      encoding: '7bit',
-    //      mimetype: 'image/png',
-    //      truncated: false,
-    //      size: 959480
-    //    }
-    // }
-    
+  /**  we can fetch bucket name form req body
+   *  to send uplpodToS3() method for uplod image to crossponding bucket **/
+  let bucketNameFromBody = req.body.bucketName
+
+
+  busboy.on('finish', function () {
+
     // Grabs your file object from the request.
     const file = req.files.element2;
-    console.log(file);
     // Begins the upload to the AWS S3
-    uploadToS3(file);
+    uploadToS3(BUCKET_NAME, file);
   });
 
   req.pipe(busboy);

@@ -1,12 +1,11 @@
 const AWS = require('aws-sdk');
-const Busboy = require('busboy');
 
-const BUCKET_NAME = '';
+
 const IAM_USER_KEY = '';
 const IAM_USER_SECRET = '';
 
-//it will take 3 parms 
-function uploadToS3(bucketName,file) {
+
+ function uploadToS3(bucketName,file) {
   let s3bucket = new AWS.S3({
     accessKeyId: IAM_USER_KEY,
     secretAccessKey: IAM_USER_SECRET,
@@ -28,3 +27,4 @@ function uploadToS3(bucketName,file) {
       });
   });
 }
+module.export = { uploadToS3 };

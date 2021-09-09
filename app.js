@@ -3,6 +3,8 @@ const indexRouter = require('./routes/index');
 const app = express();
 
 
+// Body-parser middleware
+
 
 app.use('/', indexRouter);
 
